@@ -3,8 +3,40 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.canautomotion</groupId>
     <artifactId>InvoiceGenerator</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
+    <build>
+        <plugins>
+          <plugin>
+            <!-- Build an executable JAR -->
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <version>3.2.0</version>
+            <configuration>
+              <archive>
+                <manifest>
+                  <addClasspath>true</addClasspath>
+                  <classpathPrefix>lib/</classpathPrefix>
+                  <mainClass>com.canautomotion.invoicegenerator.FilePicker</mainClass>
+                </manifest>
+              </archive>
+            </configuration>
+          </plugin>
+          <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                  <execution>
+                    <phase>package</phase>
+                    <goals>
+                      <goal>shade</goal>
+                    </goals>
+                  </execution>
+                </executions>
+          </plugin>
+        </plugins>
+    </build>
     <dependencies>
         <dependency>
             <groupId>net.sourceforge.jdatepicker</groupId>
@@ -15,7 +47,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>   
+        <maven.compiler.target>11</maven.compiler.target> 
     </properties>
     <name>Invoice Generator</name>
     <description>It generates an integrated CSV file for all the CSV files you upload to it.</description>

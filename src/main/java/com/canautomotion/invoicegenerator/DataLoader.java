@@ -11,7 +11,6 @@ import java.awt.FlowLayout;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -61,6 +60,6 @@ public class DataLoader extends JPanel {
             System.out.println("Rows: " + NewModel.getRowCount());
             System.out.println("Cols: " + NewModel.getColumnCount());   
         } 
-        this.tblCSVContent.setModel(NewModel);
+        DataLoader.tblCSVContent.setModel(NewModel);
     }
 }

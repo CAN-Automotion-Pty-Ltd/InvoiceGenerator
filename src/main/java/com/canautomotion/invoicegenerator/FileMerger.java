@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 
 /**
  *
@@ -22,12 +23,16 @@ import javax.swing.JOptionPane;
  */
 public class FileMerger extends javax.swing.JFrame {
 
+    private final JDatePickerImpl datePicker;
+    private final String siteName;
+
     /**
      * Creates new form FileMerger
      * @param files
-     * description: files is a list of CSV files which are to be integrated
+     * @param siteName
+     * @param datePicker
      */
-    public FileMerger(File[] files) {
+    public FileMerger(File[] files, String siteName, JDatePickerImpl datePicker) {
         
         //super(new BorderLayout(3, 3));
         initComponents();
@@ -39,7 +44,8 @@ public class FileMerger extends javax.swing.JFrame {
         // Display the window.
         this.pack();
         this.setVisible(true);
-        
+        this.datePicker = datePicker;
+        this.siteName = siteName;
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -97,7 +103,7 @@ public class FileMerger extends javax.swing.JFrame {
 
             MyModel model = (MyModel)DataLoader.tblCSVContent.getModel();
             
-            Date dt = (Date)FilePicker.datePicker.getModel().getValue();
+            Date dt = (Date)this.datePicker.getModel().getValue();
             Calendar calendar = new GregorianCalendar();
             calendar.setTime(dt);
             int year = calendar.get(Calendar.YEAR);
@@ -108,30 +114,27 @@ public class FileMerger extends javax.swing.JFrame {
             
             String log_dt = Integer.toString(year) + Integer.toString(month) + Integer.toString(day);
             
-            FileWriter csv = new FileWriter(new File(FilePicker.siteName + "_Log_" + log_dt + ".csv"));
-
-            for (int i = 0; i < model.getColumnCount(); i++) {
-                csv.write(model.getColumnName(i) + ",");
-            }
-
-            csv.write("\n");
-
-            for (int i = 0; i < model.getRowCount(); i++) {
-                for (int j = 0; j < model.getColumnCount(); j++) {
-                    csv.write(model.getValueAt(i, j).toString() + ",");
+            try (FileWriter csv = new FileWriter(new File(this.siteName + "_Log_" + log_dt + ".csv"))) {
+                for (int i = 0; i < model.getColumnCount(); i++) {
+                    csv.write(model.getColumnName(i) + ",");
                 }
+                
                 csv.write("\n");
+                
+                for (int i = 0; i < model.getRowCount(); i++) {
+                    for (int j = 0; j < model.getColumnCount(); j++) {
+                        csv.write(model.getValueAt(i, j).toString() + ",");
+                    }
+                    csv.write("\n");
+                }
             }
-
-            csv.close();
             
             JFrame popupWindow = new JFrame();  
-            JOptionPane.showMessageDialog(popupWindow,"File " + FilePicker.siteName + "_Log_" + log_dt + ".csv downloaded successfully"); 
+            JOptionPane.showMessageDialog(popupWindow,"File " + this.siteName + "_Log_" + log_dt + ".csv downloaded successfully"); 
             this.setVisible(false);
             new FilePicker().setVisible(true);
             
         } catch (IOException e) {
-            e.printStackTrace();
         }        
         // TODO add your handling code here:
     }//GEN-LAST:event_btnDownloadActionPerformed

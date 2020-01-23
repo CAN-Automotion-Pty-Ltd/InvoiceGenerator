@@ -20,8 +20,8 @@ import net.sourceforge.jdatepicker.impl.UtilDateModel;
  * @author User
  */
 public class FilePicker extends javax.swing.JFrame {
-    public static JDatePickerImpl datePicker;
-    public static String siteName;
+    public JDatePickerImpl datePicker;
+    public String siteName;
     
     /**
      * Creates new form FilePicker
@@ -181,7 +181,7 @@ public class FilePicker extends javax.swing.JFrame {
         siteName = txtSiteName.getText();
         
         java.awt.EventQueue.invokeLater(() -> {
-            new FileMerger(files).setVisible(true);
+            new FileMerger(files,siteName,datePicker).setVisible(true);
         });
     }//GEN-LAST:event_btnChooseCSVFilesActionPerformed
 
