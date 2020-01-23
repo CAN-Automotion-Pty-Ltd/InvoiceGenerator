@@ -5,14 +5,14 @@
  */
 package com.canautomotion.invoicegenerator;
 
-import java.awt.Image;
+import java.awt.BorderLayout;
+import java.awt.Toolkit;
 import java.io.File;
-import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
+import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
+import net.sourceforge.jdatepicker.impl.UtilDateModel;
 
 
 /**
@@ -20,14 +20,23 @@ import javax.swing.JScrollPane;
  * @author User
  */
 public class FilePicker extends javax.swing.JFrame {
-
+    public static JDatePickerImpl datePicker;
+    public static String siteName;
+    
     /**
      * Creates new form FilePicker
      */
     public FilePicker() {
         initComponents();
         
+        UtilDateModel model = new UtilDateModel();
         
+        JDatePanelImpl datePanel = new JDatePanelImpl(model);
+        datePicker = new JDatePickerImpl(datePanel);
+        datePicker.setBounds(220,380,160,30);
+                
+        this.add(datePicker,BorderLayout.LINE_END);
+        this.setVisible(true);
     }
     
     /**
@@ -41,11 +50,15 @@ public class FilePicker extends javax.swing.JFrame {
 
         btnChooseCSVFiles = new javax.swing.JButton();
         javax.swing.JLabel lblImage = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        lblAppName = new javax.swing.JLabel();
+        txtSiteName = new javax.swing.JTextField();
+        lblSiteName = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Invoice Generator");
         setFont(new java.awt.Font("Century Schoolbook", 1, 14)); // NOI18N
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/can_icon.jpg")));
         setName("mainFrame"); // NOI18N
 
         btnChooseCSVFiles.setBackground(new java.awt.Color(204, 0, 0));
@@ -64,9 +77,23 @@ public class FilePicker extends javax.swing.JFrame {
         lblImage.setIcon(new javax.swing.ImageIcon("C:\\Users\\User\\Documents\\NetBeansProjects\\InvoiceGenerator\\src\\main\\resources\\Can_Automotion_Pty_Ltd.jpg")); // NOI18N
         lblImage.setText("\"Hello\"");
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Invoice Generator");
+        lblAppName.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblAppName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblAppName.setText("Invoice Generator");
+
+        txtSiteName.setText("Enter the site name");
+        txtSiteName.setToolTipText("Enter site name or business name");
+        txtSiteName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSiteNameActionPerformed(evt);
+            }
+        });
+
+        lblSiteName.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblSiteName.setText("Site Name:");
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel2.setText("Order Date:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -74,25 +101,42 @@ public class FilePicker extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(48, 48, 48)
+                        .addComponent(lblAppName, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(165, 165, 165)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnChooseCSVFiles, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(179, Short.MAX_VALUE))
+                .addGap(144, 144, 144)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblSiteName)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtSiteName, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(175, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(189, 189, 189)
+                .addComponent(btnChooseCSVFiles, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(24, 24, 24)
+                .addContainerGap(28, Short.MAX_VALUE)
                 .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addComponent(lblAppName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblSiteName)
+                    .addComponent(txtSiteName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel2)
+                .addGap(39, 39, 39)
                 .addComponent(btnChooseCSVFiles, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(36, 36, 36))
         );
 
         btnChooseCSVFiles.getAccessibleContext().setAccessibleName("btnChooseCSVFiles");
@@ -134,10 +178,16 @@ public class FilePicker extends javax.swing.JFrame {
         files = chooser.getSelectedFiles();
         
         this.setVisible(false);
+        siteName = txtSiteName.getText();
+        
         java.awt.EventQueue.invokeLater(() -> {
             new FileMerger(files).setVisible(true);
         });
     }//GEN-LAST:event_btnChooseCSVFilesActionPerformed
+
+    private void txtSiteNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSiteNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSiteNameActionPerformed
 
     /**
      * @param args the command line arguments
@@ -170,6 +220,9 @@ public class FilePicker extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnChooseCSVFiles;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel lblAppName;
+    private javax.swing.JLabel lblSiteName;
+    private javax.swing.JTextField txtSiteName;
     // End of variables declaration//GEN-END:variables
 }

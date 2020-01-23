@@ -22,13 +22,13 @@ import javax.swing.border.EmptyBorder;
  * @author User
  */
 public class DataLoader extends JPanel {
-    private final JTable tblCSVContent;
+    public static JTable tblCSVContent;
     
     public DataLoader(File[] files){
         super(new BorderLayout(3, 3));
-        this.tblCSVContent = new JTable(new MyModel());
-        this.tblCSVContent.setPreferredScrollableViewportSize(new Dimension(700, 70));
-        this.tblCSVContent.setFillsViewportHeight(true);
+        DataLoader.tblCSVContent = new JTable(new MyModel());
+        DataLoader.tblCSVContent.setPreferredScrollableViewportSize(new Dimension(700, 70));
+        DataLoader.tblCSVContent.setFillsViewportHeight(true);
 
         JPanel ButtonOpen = new JPanel(new FlowLayout(FlowLayout.CENTER));
         add(ButtonOpen, BorderLayout.SOUTH);

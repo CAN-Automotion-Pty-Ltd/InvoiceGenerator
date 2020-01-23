@@ -6,15 +6,15 @@
 package com.canautomotion.invoicegenerator;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.io.BufferedReader;
+import java.awt.Toolkit;
 import java.io.File;
-import java.util.ArrayList;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -25,6 +25,7 @@ public class FileMerger extends javax.swing.JFrame {
     /**
      * Creates new form FileMerger
      * @param files
+     * description: files is a list of CSV files which are to be integrated
      */
     public FileMerger(File[] files) {
         
@@ -49,9 +50,11 @@ public class FileMerger extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jOptionPane1 = new javax.swing.JOptionPane();
         btnDownload = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/can_icon.jpg")));
 
         btnDownload.setBackground(new java.awt.Color(204, 0, 0));
         btnDownload.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -90,7 +93,46 @@ public class FileMerger extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDownloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDownloadActionPerformed
-        
+        try {
+
+            MyModel model = (MyModel)DataLoader.tblCSVContent.getModel();
+            
+            Date dt = (Date)FilePicker.datePicker.getModel().getValue();
+            Calendar calendar = new GregorianCalendar();
+            calendar.setTime(dt);
+            int year = calendar.get(Calendar.YEAR);
+            //Add one to month {0 - 11}
+            int month = calendar.get(Calendar.MONTH) + 1;
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+            
+            
+            String log_dt = Integer.toString(year) + Integer.toString(month) + Integer.toString(day);
+            
+            FileWriter csv = new FileWriter(new File(FilePicker.siteName + "_Log_" + log_dt + ".csv"));
+
+            for (int i = 0; i < model.getColumnCount(); i++) {
+                csv.write(model.getColumnName(i) + ",");
+            }
+
+            csv.write("\n");
+
+            for (int i = 0; i < model.getRowCount(); i++) {
+                for (int j = 0; j < model.getColumnCount(); j++) {
+                    csv.write(model.getValueAt(i, j).toString() + ",");
+                }
+                csv.write("\n");
+            }
+
+            csv.close();
+            
+            JFrame popupWindow = new JFrame();  
+            JOptionPane.showMessageDialog(popupWindow,"File " + FilePicker.siteName + "_Log_" + log_dt + ".csv downloaded successfully"); 
+            this.setVisible(false);
+            new FilePicker().setVisible(true);
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }        
         // TODO add your handling code here:
     }//GEN-LAST:event_btnDownloadActionPerformed
 
@@ -131,5 +173,6 @@ public class FileMerger extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDownload;
+    private javax.swing.JOptionPane jOptionPane1;
     // End of variables declaration//GEN-END:variables
 }

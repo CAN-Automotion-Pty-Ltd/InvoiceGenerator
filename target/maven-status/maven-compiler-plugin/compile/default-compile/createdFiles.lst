@@ -1,7 +1,9 @@
 com\canautomotion\invoicegenerator\FilePicker$1.class
-com\canautomotion\invoicegenerator\MyModel.class
 com\canautomotion\invoicegenerator\DataLoader.class
+com\canautomotion\invoicegenerator\FileMerger$1.class
 com\canautomotion\invoicegenerator\CSVFile.class
 com\canautomotion\invoicegenerator\CSVFilter.class
+com\canautomotion\invoicegenerator\FilePicker$2.class
+com\canautomotion\invoicegenerator\MyModel.class
 com\canautomotion\invoicegenerator\FileMerger.class
 com\canautomotion\invoicegenerator\FilePicker.class

@@ -41,12 +41,13 @@ public class CSVFile {
     
     public ArrayList<String[]> ReadCSVfile(File DataFile) {
         try {
+            System.out.println(DataFile);
             BufferedReader brd = new BufferedReader(new FileReader(DataFile));
-
+            brd.readLine();
             while (brd.ready()) {
                 String st = brd.readLine();
                 if(st!= null){
-                  OneRow = st.split(",|\\s|;");  
+                  OneRow = st.split(",");    // add other delimiters/separators ",|\\s|;"
                 } else{
                   OneRow = null;
                 }
